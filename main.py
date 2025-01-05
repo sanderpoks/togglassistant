@@ -1,4 +1,6 @@
-from integration.toggl_api import get_time_entries, fetch_projects, fetch_workspaces
+from core.initialization import setup_workspace_and_projects
+from core.data_processing import add_time_entry
+from datetime import datetime, timezone
 
 if __name__ == "__main__":
-    pass
+    setup_workspace_and_projects()

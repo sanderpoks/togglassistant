@@ -57,3 +57,39 @@ def fetch_projects(workspace_id):
     except Exception as e:
         print(f"Error fetching projects for workspace {workspace_id}: {e}")
         return []
+
+def create_time_entry(workspace_id, description, start, duration=None, project_id=None, tags=None, billable=False):
+    """
+    Create a new time entry in Toggl Track.
+
+    Args:
+        workspace_id (int): ID of the workspace.
+        description (str): Description of the time entry.
+        start (str): Start time in ISO 8601 format.
+        duration (int, optional): Duration in seconds. If None, the entry will be running.
+        project_id (int, optional): Project ID to associate with the entry.
+        tags (list, optional): List of tags for the entry.
+        billable (bool, optional): Whether the entry is billable.
+
+    Returns:
+        dict: The created time entry details.
+    """
+    try:
+        # Map parameters to align with Toggl API expectations
+        time_entry_data = {
+            "workspace_id": workspace_id,
+            "start_datetime": start,  # Adjust to match `start_datetime`
+            "created_with": "togglassistant",
+            "description": description,
+            "duration": duration if duration is not None else -1,  # -1 indicates a running timer
+            "project_id": project_id,
+            "tags": tags or [],
+            "billable": billable,
+        }
+
+        # Pass parameters to the toggl-python API method
+        response = workspace_api.create_time_entry(**time_entry_data)
+        return response
+    except Exception as e:
+        print(f"Error creating time entry: {e}")
+        return None
