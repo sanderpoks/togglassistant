@@ -19,7 +19,6 @@ def get_time_entries(start_date: str, end_date:str):
         list: A list of time entries.
     """
     try:
-        # Fetch time entries using the TimeEntry entity
         time_entries = CurrentUser(auth=auth).get_time_entries(
             start_date=start_date,
             end_date=end_date
@@ -28,6 +27,23 @@ def get_time_entries(start_date: str, end_date:str):
     except Exception as e:
         print(f"Error fetching time entries: {e}")
         return []
+    
+
+def get_running_entry():
+    """
+    Fetch the currently running time entry (if any).
+
+    Returns:
+        dict: Running time entry details or None if no entry is running.
+    """
+    try:
+        # Use the built-in method to fetch the current time entry
+        running_entry = CurrentUser(auth=auth).get_current_time_entry()
+        return running_entry
+    except Exception as e:
+        print(f"Error fetching running time entry: {e}")
+        return None
+
 
 def fetch_workspaces():
     """
@@ -93,3 +109,60 @@ def create_time_entry(workspace_id, description, start, duration=None, project_i
     except Exception as e:
         print(f"Error creating time entry: {e}")
         return None
+
+def update_time_entry(workspace_id, entry_id, description=None, start=None, stop=None, project_id=None, tags=None):
+    """
+    Update an existing time entry in Toggl Track.
+
+    Args:
+        workspace_id (int): Workspace ID where the entry exists.
+        entry_id (int): The ID of the time entry to update.
+        description (str, optional): New description.
+        start (str, optional): New start time in ISO 8601 format.
+        stop (str, optional): New stop time in ISO 8601 format.
+        project_id (int, optional): New project ID.
+        tags (list, optional): New tags.
+
+    Returns:
+        dict: Updated time entry details.
+    """
+    try:
+        update_data = {
+            "description": description,
+            "start": start,
+            "stop": stop,
+            "project_id": project_id,
+            "tags": tags or [],
+        }
+        # Remove None values to avoid sending unnecessary fields
+        update_data = {k: v for k, v in update_data.items() if v is not None}
+
+        response = workspace_api.update_time_entry(
+            workspace_id=workspace_id,
+            time_entry_id=entry_id,
+            **update_data
+        )
+        return response
+    except Exception as e:
+        print(f"Error updating time entry: {e}")
+        return None
+
+
+
+def delete_time_entry(workspace_id, entry_id):
+    """
+    Delete a time entry in Toggl Track.
+
+    Args:
+        workspace_id (int): Workspace ID where the entry exists.
+        entry_id (int): The ID of the time entry to delete.
+
+    Returns:
+        bool: True if the entry was deleted successfully, False otherwise.
+    """
+    try:
+        success = workspace_api.delete_time_entry(workspace_id=workspace_id, time_entry_id=entry_id)
+        return success
+    except Exception as e:
+        print(f"Error deleting time entry: {e}")
+        return False
