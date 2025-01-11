@@ -7,28 +7,28 @@ from config import TOGGL_API_TOKEN
 auth = TokenAuth(token=TOGGL_API_TOKEN)
 workspace_api = Workspace(auth=auth)
 
-def get_time_entries(start_date: str, end_date:str):
+def get_time_entries(start_datetime: str, end_datetime: str):
     """
-    Fetch time entries from Toggl Track for the specified date range.
+    Fetch time entries from Toggl Track for the specified date-time range.
 
     Args:
-        start_date (str): Start date in ISO 8601 format (YYYY-MM-DD).
-        end_date (str): End date in ISO 8601 format (YYYY-MM-DD).
+        start_datetime (str): Start date-time in ISO 8601 format (e.g., '2025-01-11T08:00:00Z').
+        end_datetime (str): End date-time in ISO 8601 format (e.g., '2025-01-11T18:00:00Z').
 
     Returns:
         list: A list of time entries.
     """
     try:
         time_entries = CurrentUser(auth=auth).get_time_entries(
-            start_date=start_date,
-            end_date=end_date
+            start_date=start_datetime,  # Can include both date and time
+            end_date=end_datetime       # Can include both date and time
         )
         return time_entries
     except Exception as e:
         print(f"Error fetching time entries: {e}")
         return []
-    
 
+    
 def get_running_entry():
     """
     Fetch the currently running time entry (if any).
@@ -43,7 +43,6 @@ def get_running_entry():
     except Exception as e:
         print(f"Error fetching running time entry: {e}")
         return None
-
 
 def fetch_workspaces():
     """
@@ -146,8 +145,6 @@ def update_time_entry(workspace_id, entry_id, description=None, start=None, stop
     except Exception as e:
         print(f"Error updating time entry: {e}")
         return None
-
-
 
 def delete_time_entry(workspace_id, entry_id):
     """
