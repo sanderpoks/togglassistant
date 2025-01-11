@@ -1,0 +1,50 @@
+{
+  "Introduction": {
+    "Purpose": "This document outlines the use cases for TogglAssistant to guide feature development and ensure the program meets user needs.",
+    "Scope": "The document describes user actions and success conditions for core functionalities."
+  },
+  "UseCases": [
+    {
+      "id": 1,
+      "Title": "Listing and Selecting Entries",
+      "Intent": "The user wants to view a list of existing time entries and select one for further actions such as editing or deletion.",
+      "SuccessCondition": "A list of entries is displayed, and the user can successfully select an entry for the desired action."
+    },
+    {
+      "id": 2,
+      "Title": "Adding a New Time Entry",
+      "Intent": "The user wants to create a new time entry for a task with specific details such as project, duration, and tags.",
+      "SuccessCondition": "A new time entry is created in Toggl Track with the provided details."
+    },
+    {
+      "id": 3,
+      "Title": "Editing an Existing Time Entry",
+      "Intent": "The user wants to update details of an existing time entry, such as its description, project, or tags.",
+      "SuccessCondition": "The time entry is updated in Toggl Track with the modified details."
+    },
+    {
+      "id": 4,
+      "Title": "Deleting a Time Entry",
+      "Intent": "The user wants to remove a specific time entry from Toggl Track.",
+      "SuccessCondition": "The time entry is successfully deleted from Toggl Track."
+    },
+    {
+      "id": 5,
+      "Title": "Resolving Overlapping Time Entries",
+      "Intent": "The user wants to identify and fix overlapping time entries to ensure accurate tracking.",
+      "SuccessCondition": "All overlapping time entries are resolved without losing relevant information."
+    },
+    {
+      "id": 6,
+      "Title": "Detecting Untracked Time",
+      "Intent": "The user wants to identify periods where no time entries exist.",
+      "SuccessCondition": "Untracked periods are highlighted for review or corrected with new entries."
+    },
+    {
+      "id": 7,
+      "Title": "Unifying Activity Descriptions",
+      "Intent": "The user wants to merge similar activity descriptions into a single unified label.",
+      "SuccessCondition": "Duplicate descriptions are consolidated without losing tracking details."
+    }
+  ]
+}
