@@ -73,11 +73,12 @@ class TimeEntry:
         }
 
     def __str__(self):
-        if self.is_running():
-            stop_time = "Running"  # Display "Running" for ongoing entries
-        else:
-            stop_time = self.calculate_stop()
-        return f"[{self.id}] {self.start} - {stop_time} | {self.description or 'No description'}"
+        time_format = "%Y-%m-%d %H:%M"
+        start_time = self.start.strftime(time_format) if self.start else "Unknown Start"
+        stop_time = "Running" if self.is_running() else (self.calculate_stop().strftime(time_format) if self.calculate_stop() else "Unknown Stop")
+        description = self.description or "No description"
+        return f"[{self.id}] {start_time} - {stop_time} | {description}"
+
 
 
     def print_entry(self):

@@ -10,3 +10,7 @@ __pycache__/
 
 # Configuration
 config.py
+
+# Local data
+config.json
+repository.json
